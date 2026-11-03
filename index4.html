@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html ng-app="libraryApp">
+<head>
+    <title>Library Management System</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+</head>
+
+<body>
+
+<div ng-controller="ParentController">
+
+    <h1>Library Management System</h1>
+
+    <h2>Parent Controller</h2>
+
+    Book Name:
+    <input type="text" ng-model="newBook">
+
+    <button ng-click="addBook()">Add Book</button>
+
+    <h3>Book List</h3>
+
+    <div ng-repeat="book in books">
+        <p>{{$index + 1}}. {{book}}</p>
+    </div>
+
+    <hr>
+
+    <div ng-controller="ChildController">
+
+        <h2>Child Controller</h2>
+
+        <p>Parent Message: {{parentMessage}}</p>
+
+        Enter Child Message:
+        <input type="text" ng-model="childMessage">
+
+        <button ng-click="sendMessage()">
+            Send to Parent
+        </button>
+
+        <p>Message from Child: {{receivedMessage}}</p>
+
+    </div>
+
+</div>
+
+</body>
+</html>
