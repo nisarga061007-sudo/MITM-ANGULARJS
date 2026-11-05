@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="todoApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Proj 03: To-Do List & Task Prioritization Manager</title>
+    <!-- AngularJS 1.8.2 CDN (Required to process angular expressions and directives) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body ng-controller="TodoController">
+
+    <div class="container">
+        <h2>Task Prioritization Manager</h2>
+        <div class="subtitle">Ehtnotech Academic Series • AngularJS 1.x Curriculum</div>
+
+        <!-- Task Creation Form -->
+        <form class="task-form" ng-submit="addTask()">
+            <input type="text" ng-model="newTaskTitle" placeholder="What needs to be done?" required>
+            <select ng-model="newTaskPriority">
+                <option value="High">High Priority</option>
+                <option value="Medium" selected>Medium Priority</option>
+                <option value="Low">Low Priority</option>
+            </select>
+            <button type="submit" class="btn-primary">Add Task</button>
+        </form>
+
+        <!-- Filters & Counter Bar -->
+        <div class="controls-bar">
+            <div class="filter-tabs">
+                <button ng-click="statusFilter = ''" ng-class="{'active': statusFilter === ''}">All</button>
+                <button ng-click="statusFilter = {completed: false}" ng-class="{'active': statusFilter.completed === false}">Pending</button>
+                <button ng-click="statusFilter = {completed: true}" ng-class="{'active': statusFilter.completed === true}">Completed</button>
+            </div>
+            <div class="progress-counter">
+                {{ (tasks | filter:{completed: true}).length }} of {{ tasks.length }} tasks completed
+            </div>
+        </div>
+
+        <!-- Task Item List -->
+        <ul class="task-list">
+            <li class="task-item" ng-repeat="task in tasks | filter:statusFilter track by task.id" ng-class="{'completed': task.completed}">
+                <div class="task-left">
+                    <input type="checkbox" ng-model="task.completed">
+                    <span class="task-title">{{ task.title }}</span>
+                    <span class="badge badge-{{ task.priority }}">{{ task.priority }}</span>
+                </div>
+                <button class="btn-delete" ng-click="deleteTask(task.id)" title="Delete Task">&times;</button>
+            </li>
+        </ul>
+
+        <!-- Empty State Handling -->
+        <div class="empty-state" ng-show="(tasks | filter:statusFilter).length === 0">
+            No tasks found in this view. Great job staying on top of things!
+        </div>
+
+        <!-- Bulk Management Actions -->
+        <div class="bulk-actions" ng-show="tasks.length > 0">
+            <button class="btn-subtle" ng-click="markAllDone()">Mark All Done</button>
+            <button class="btn-subtle" ng-click="clearCompleted()">Clear Completed</button>
+        </div>
+    </div>
+
+    <!-- Link to Controller Script -->
+    <script src="app 9.js"></script>
+
+</body>
+</html>
